@@ -1,51 +1,68 @@
-// Array of phrases we want to type out
-const phrases = [
-    "HTML & CSS.",
-    "PostgreSQL.",
-    "SQL Server.",
-    "clean code."
-];
-
-let phraseIndex = 0;
-let letterIndex = 0;
-let isDeleting = false;
-
-const typewriterElement = document.getElementById('typewriter');
-
-function type() {
-    const currentPhrase = phrases[phraseIndex];
+/* =========================================
+   FEATURE 1: SCROLL PROGRESS BAR
+========================================= */
+window.addEventListener('scroll', () => {
+    const scrollProgress = document.getElementById('scroll-progress');
+    // Calculate how far down the page the user has scrolled
+    const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const scrollPosition = window.scrollY;
     
-    if (isDeleting) {
-        // Remove a letter
-        typewriterElement.textContent = currentPhrase.substring(0, letterIndex - 1);
-        letterIndex--;
-    } else {
-        // Add a letter
-        typewriterElement.textContent = currentPhrase.substring(0, letterIndex + 1);
-        letterIndex++;
-    }
-
-    // Determine typing speed (faster when deleting)
-    let typingSpeed = isDeleting ? 50 : 100;
-
-    // If word is complete, wait, then start deleting
-    if (!isDeleting && letterIndex === currentPhrase.length) {
-        typingSpeed = 2000; // Pause at the end of the word
-        isDeleting = true;
-    } 
-    // If word is completely deleted, move to the next phrase
-    else if (isDeleting && letterIndex === 0) {
-        isDeleting = false;
-        phraseIndex = (phraseIndex + 1) % phrases.length;
-        typingSpeed = 500; // Pause before typing next word
-    }
-
-    // Call the function again after the calculated delay
-    setTimeout(type, typingSpeed);
-}
-
-// Start the typing effect when the page loads
-document.addEventListener("DOMContentLoaded", () => {
-    type();
+    // Convert to a percentage and update the width of the bar
+    const scrollPercentage = (scrollPosition / totalHeight) * 100;
+    scrollProgress.style.width = `${scrollPercentage}%`;
 });
 
+/* =========================================
+   FEATURE 2: DARK/LIGHT THEME TOGGLE
+========================================= */
+const themeToggleBtn = document.getElementById('theme-toggle');
+
+themeToggleBtn.addEventListener('click', () => {
+    // Toggles the 'light-mode' class on the body element
+    document.body.classList.toggle('light-mode');
+    
+    // Change the button text based on the current theme
+    if (document.body.classList.contains('light-mode')) {
+        themeToggleBtn.textContent = '🌙 Dark Mode';
+    } else {
+        themeToggleBtn.textContent = '☀️ Light Mode';
+    }
+});
+
+/* =========================================
+   FEATURE 3: LIVE GITHUB REPO FETCHER
+========================================= */
+// Replace 'yourusername' with your actual GitHub username!
+const githubUsername = 'yourusername'; 
+const repoContainer = document.getElementById('repo-container');
+
+// Fetch data from the public GitHub API
+fetch(`https://api.github.com/users/${githubUsername}/repos?sort=updated&per_page=4`)
+    .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.json();
+    })
+    .then(repos => {
+        // Clear the "Loading..." text
+        repoContainer.innerHTML = ''; 
+        
+        // Loop through the repos and create a card for each one
+        repos.forEach(repo => {
+            const repoElement = document.createElement('div');
+            repoElement.classList.add('repo-card');
+            
+            // If a repo has no description, provide a default fallback
+            const description = repo.description ? repo.description : 'No description provided.';
+            
+            repoElement.innerHTML = `
+                <h3>${repo.name}</h3>
+                <p>${description}</p>
+                <a href="${repo.html_url}" target="_blank">View Code &rarr;</a>
+            `;
+            repoContainer.appendChild(repoElement);
+        });
+    })
+    .catch(error => {
+        repoContainer.innerHTML = '<p>Error loading repositories. Check console.</p>';
+        console.error('Error fetching GitHub repos:', error);
+    });

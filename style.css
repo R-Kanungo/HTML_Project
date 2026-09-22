@@ -1,33 +1,16 @@
-/* --- 8. Skills Grid & Tags --- */
-.skills-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 15px;
+/* --- Light Mode Theme Variables --- */
+body.light-mode {
+    --bg-color: #f8fafc;        /* Off-white background */
+    --card-bg: #ffffff;         /* Solid white cards */
+    --text-main: #0f172a;       /* Dark slate text */
+    --text-muted: #64748b;      /* Medium gray text */
+    /* We keep the accent colors the same so it still pops! */
 }
 
-.skill-tag {
-    background: rgba(56, 189, 248, 0.1);
-    color: var(--accent-1);
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    border: 1px solid rgba(56, 189, 248, 0.3);
+/* Ensure smooth transition when switching themes */
+body {
+    transition: background-color 0.4s ease, color 0.4s ease;
 }
-
-/* --- 9. Typing Cursor Animation --- */
-.cursor {
-    display: inline-block;
-    width: 3px;
-    background-color: var(--accent-1);
-    margin-left: 4px;
-    animation: blink 1s infinite;
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.4s ease;
 }
-
-@keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
-}
-
-
