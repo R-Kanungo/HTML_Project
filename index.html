@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- FEATURE 1: Scroll Progress Bar -->
     <div id="scroll-progress"></div>
 
     <nav class="navbar">
@@ -16,7 +15,6 @@
         <ul class="nav-links">
             <li><a href="#about">About</a></li>
             <li><a href="#education">Education</a></li>
-            <!-- FEATURE 2: Theme Toggle Button -->
             <li><button id="theme-toggle" class="theme-btn">☀️ Light Mode</button></li>
         </ul>
     </nav>
@@ -27,14 +25,34 @@
     </header>
 
     <main>
-        <!-- (Your existing About, Skills, and Education sections stay exactly the same here) -->
+        <section id="about" class="card">
+            <h2>About Me</h2>
+            <p>Hi, I'm Rohan. I'm currently studying Computer Science at the University of Adelaide. I focus on writing clean, semantic HTML and creating structured, highly visual web experiences.</p>
+        </section>
 
-        <!-- FEATURE 3: Live GitHub Fetcher Section -->
+        <section id="skills" class="card">
+            <h2>Technical Skills</h2>
+            <div class="skills-grid">
+                <span class="skill-tag">HTML & CSS</span>
+                <span class="skill-tag">PostgreSQL</span>
+                <span class="skill-tag">SQL Server</span>
+                <span class="skill-tag">Git & GitHub</span>
+                <span class="skill-tag">GitHub Copilot</span>
+            </div>
+        </section>
+
+        <section id="education" class="card">
+            <h2>Education</h2>
+            <div class="edu-item">
+                <h3>Bachelor of Computer Science</h3>
+                <p class="accent-text">University of Adelaide</p>
+            </div>
+        </section>
+
         <section id="github-projects" class="card">
             <h2>Live GitHub Repositories</h2>
             <p>Pulling directly from GitHub via API:</p>
             <div id="repo-container" class="repo-grid">
-                <!-- JavaScript will inject your repos here -->
                 <p>Loading repositories...</p>
             </div>
         </section>
